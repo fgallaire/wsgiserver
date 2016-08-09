@@ -1,9 +1,8 @@
 """A high-speed, production ready, thread pooled, generic HTTP server.
 
-Simplest example on how to use this module directly
-(without using CherryPy's application machinery)::
+Simplest example on how to use WSGIServer::
 
-    from cherrypy import wsgiserver
+    import wsgiserver
 
     def my_crazy_app(environ, start_response):
         status = '200 OK'
@@ -11,29 +10,24 @@ Simplest example on how to use this module directly
         start_response(status, response_headers)
         return ['Hello world!']
 
-    server = wsgiserver.CherryPyWSGIServer(
+    server = wsgiserver.WSGIServer(
                 ('0.0.0.0', 8070), my_crazy_app,
-                server_name='www.cherrypy.example')
+                server_name='www.wsgiserver.example')
     server.start()
 
-The CherryPy WSGI server can serve as many WSGI applications
-as you want in one instance by using a WSGIPathInfoDispatcher::
+WSGIServer can serve as many WSGI applications as you want in one
+instance by using a WSGIPathInfoDispatcher::
 
     d = WSGIPathInfoDispatcher({'/': my_crazy_app, '/blog': my_blog_app})
-    server = wsgiserver.CherryPyWSGIServer(('0.0.0.0', 80), d)
+    server = wsgiserver.WSGIServer(('0.0.0.0', 80), d)
 
 Want SSL support? Just set server.ssl_adapter to an SSLAdapter instance.
-
-This won't call the CherryPy engine (application side) at all, only the
-HTTP server, which is independent from the rest of CherryPy. Don't
-let the name "CherryPyWSGIServer" throw you; the name merely reflects
-its origin, not its coupling.
 
 For those of you wanting to understand internals of this module, here's the
 basic call flow. The server's listening thread runs a very tight loop,
 sticking incoming connections onto a Queue::
 
-    server = CherryPyWSGIServer(...)
+    server = WSGIServer(...)
     server.start()
     while True:
         tick()
@@ -68,12 +62,14 @@ number of requests and their responses, so we run a nested loop::
                     return
 """
 
+__version__ = '0.1'
+
 __all__ = ['HTTPRequest', 'HTTPConnection', 'HTTPServer',
            'SizeCheckWrapper', 'KnownLengthRFile', 'ChunkedRFile',
            'CP_makefile',
            'MaxSizeExceeded', 'NoSSLError', 'FatalSSLAlert',
            'WorkerThread', 'ThreadPool', 'SSLAdapter',
-           'CherryPyWSGIServer',
+           'WSGIServer',
            'Gateway', 'WSGIGateway', 'WSGIGateway_10', 'WSGIGateway_u0',
            'WSGIPathInfoDispatcher', 'get_ssl_adapter_class',
            'socket_errors_to_ignore']
@@ -120,12 +116,6 @@ if 'win' in sys.platform and hasattr(socket, "AF_INET6"):
 
 
 DEFAULT_BUFFER_SIZE = io.DEFAULT_BUFFER_SIZE
-
-
-try:
-    cp_version = pkg_resources.require('cherrypy')[0].version
-except Exception:
-    cp_version = 'unknown'
 
 
 if six.PY3:
@@ -1810,7 +1800,7 @@ class HTTPServer(object):
     timeout = 10
     """The timeout in seconds for accepted connections (default 10)."""
 
-    version = "CherryPy/" + cp_version
+    version = "WSGIServer/" + __version__
     """A version string for the HTTPServer."""
 
     software = None
@@ -1882,7 +1872,7 @@ class HTTPServer(object):
                  for w in s['Worker Threads'].values()], 0),
             'Worker Threads': {},
         }
-        logging.statistics["CherryPy HTTPServer %d" % id(self)] = self.stats
+        logging.statistics["WSGIServer %d" % id(self)] = self.stats
 
     def runtime(self):
         if self._start_time is None:
@@ -2224,8 +2214,8 @@ class Gateway(object):
 # These may either be wsgiserver.SSLAdapter subclasses or the string names
 # of such classes (in which case they will be lazily loaded).
 ssl_adapters = {
-    'builtin': 'cherrypy.wsgiserver.ssl_builtin.BuiltinSSLAdapter',
-    'pyopenssl': 'cherrypy.wsgiserver.ssl_pyopenssl.pyOpenSSLAdapter',
+    'builtin': 'wsgiserver.ssl_builtin.BuiltinSSLAdapter',
+    'pyopenssl': 'wsgiserver.ssl_pyopenssl.pyOpenSSLAdapter',
 }
 
 
@@ -2257,7 +2247,7 @@ def get_ssl_adapter_class(name='builtin'):
 # ------------------------------- WSGI Stuff -------------------------------- #
 
 
-class CherryPyWSGIServer(HTTPServer):
+class WSGIServer(HTTPServer):
 
     """A subclass of HTTPServer which calls a WSGI application."""
 
