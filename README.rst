@@ -19,7 +19,7 @@ To install the last stable version from PyPI::
 To install the development version from GitHub::
 
     $ git clone https://github.com/fgallaire/wsgiserver
-    $ cd wsgi
+    $ cd wsgiserver
     $ sudo python setup.py install
 
 Documentation and Caveats
@@ -49,7 +49,7 @@ WSGIserver can serve as many WSGI applications as you want in one
 instance by using a ``WSGIPathInfoDispatcher``::
 
     d = wsgiserver.WSGIPathInfoDispatcher({'/': my_app, '/blog': my_blog_app})
-    server = wsgiserver.WSGIServer(('0.0.0.0', 80), d)
+    server = wsgiserver.WSGIServer(('0.0.0.0', 8070), d)
 
 To add SSL support, just set ``server.ssl_adapter`` to an ``SSLAdapter`` instance::
 
