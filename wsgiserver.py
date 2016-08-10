@@ -1,4 +1,7 @@
-"""A high-speed, production ready, thread pooled, generic HTTP server.
+"""A high-speed, production ready, thread pooled, generic WSGI server.
+
+Copyright (c) 2016, Florent Gallaire (fgallaire@gmail.com)
+Copyright (c) 2004-2016, CherryPy Team (team@cherrypy.org)
 
 Simplest example on how to use WSGIServer::
 
