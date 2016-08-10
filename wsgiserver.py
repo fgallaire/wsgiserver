@@ -87,7 +87,7 @@ __all__ = ['HTTPRequest', 'HTTPConnection', 'HTTPServer',
            'WorkerThread', 'ThreadPool', 'SSLAdapter',
            'WSGIServer',
            'Gateway', 'WSGIGateway', 'WSGIGateway_10', 'WSGIGateway_u0',
-           'WSGIPathInfoDispatcher', 'get_ssl_adapter_class',
+           'WSGIPathInfoDispatcher',
            'socket_errors_to_ignore']
 
 import os
@@ -1755,29 +1755,6 @@ else:
         fcntl.fcntl(fd, fcntl.F_SETFD, old_flags | fcntl.FD_CLOEXEC)
 
 
-class SSLAdapter(object):
-
-    """Base class for SSL driver library adapters.
-
-    Required methods:
-
-        * ``wrap(sock) -> (wrapped socket, ssl environ dict)``
-        * ``makefile(sock, mode='r', bufsize=DEFAULT_BUFFER_SIZE) ->
-          socket file object``
-    """
-
-    def __init__(self, certificate, private_key, certificate_chain=None):
-        self.certificate = certificate
-        self.private_key = private_key
-        self.certificate_chain = certificate_chain
-
-    def wrap(self, sock):
-        raise NotImplemented
-
-    def makefile(self, sock, mode='r', bufsize=DEFAULT_BUFFER_SIZE):
-        raise NotImplemented
-
-
 try:
     import ssl
 except ImportError:
@@ -1789,9 +1766,9 @@ except ImportError:
     DEFAULT_BUFFER_SIZE = -1
 
 
-class BuiltinSSLAdapter(SSLAdapter):
+class SSLAdapter(object):
 
-    """A wrapper for integrating Python's builtin ssl module with CherryPy."""
+    """A wrapper for integrating Python's builtin ssl module with WSGIServer."""
 
     certificate = None
     """The filename of the server SSL certificate."""
@@ -2319,32 +2296,6 @@ class Gateway(object):
     def respond(self):
         """Process the current request. Must be overridden in a subclass."""
         raise NotImplemented
-
-
-def get_ssl_adapter_class():
-    """Return an SSL adapter class for the given name."""
-    adapter = 'wsgiserver.ssl_builtin.BuiltinSSLAdapter'
-    if isinstance(adapter, six.string_types):
-        last_dot = adapter.rfind(".")
-        attr_name = adapter[last_dot + 1:]
-        mod_path = adapter[:last_dot]
-
-        try:
-            mod = sys.modules[mod_path]
-            if mod is None:
-                raise KeyError()
-        except KeyError:
-            # The last [''] is important.
-            mod = __import__(mod_path, globals(), locals(), [''])
-
-        # Let an AttributeError propagate outward.
-        try:
-            adapter = getattr(mod, attr_name)
-        except AttributeError:
-            raise AttributeError("'%s' object has no attribute '%s'"
-                                 % (mod_path, attr_name))
-
-    return adapter
 
 # ------------------------------- WSGI Stuff -------------------------------- #
 
