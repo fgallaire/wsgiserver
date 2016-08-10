@@ -1,7 +1,7 @@
 from setuptools import setup
 from wsgiserver import __version__ as version
 
-setup(name='WSGIServer',
+setup(name='WSGIserver',
       version=version,
       description='A high-speed, production ready, thread pooled, generic WSGI server',
       author='Florent Gallaire',

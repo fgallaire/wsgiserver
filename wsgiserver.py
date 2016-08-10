@@ -16,29 +16,6 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-Simplest example on how to use WSGIServer::
-
-    import wsgiserver
-
-    def my_crazy_app(environ, start_response):
-        status = '200 OK'
-        response_headers = [('Content-type','text/plain')]
-        start_response(status, response_headers)
-        return ['Hello world!']
-
-    server = wsgiserver.WSGIServer(
-                ('0.0.0.0', 8070), my_crazy_app,
-                server_name='www.wsgiserver.example')
-    server.start()
-
-WSGIServer can serve as many WSGI applications as you want in one
-instance by using a WSGIPathInfoDispatcher::
-
-    d = WSGIPathInfoDispatcher({'/': my_crazy_app, '/blog': my_blog_app})
-    server = wsgiserver.WSGIServer(('0.0.0.0', 80), d)
-
-Want SSL support? Just set server.ssl_adapter to an SSLAdapter instance.
-
 For those of you wanting to understand internals of this module, here's the
 basic call flow. The server's listening thread runs a very tight loop,
 sticking incoming connections onto a Queue::
@@ -1887,7 +1864,7 @@ class HTTPServer(object):
     timeout = 10
     """The timeout in seconds for accepted connections (default 10)."""
 
-    version = "WSGIServer/" + __version__
+    version = "WSGIserver/" + __version__
     """A version string for the HTTPServer."""
 
     software = None
@@ -1959,7 +1936,7 @@ class HTTPServer(object):
                  for w in s['Worker Threads'].values()], 0),
             'Worker Threads': {},
         }
-        logging.statistics["WSGIServer %d" % id(self)] = self.stats
+        logging.statistics["WSGIserver %d" % id(self)] = self.stats
 
     def runtime(self):
         if self._start_time is None:
