@@ -2214,17 +2214,9 @@ class Gateway(object):
         raise NotImplemented
 
 
-# These may either be wsgiserver.SSLAdapter subclasses or the string names
-# of such classes (in which case they will be lazily loaded).
-ssl_adapters = {
-    'builtin': 'wsgiserver.ssl_builtin.BuiltinSSLAdapter',
-    'pyopenssl': 'wsgiserver.ssl_pyopenssl.pyOpenSSLAdapter',
-}
-
-
-def get_ssl_adapter_class(name='builtin'):
+def get_ssl_adapter_class():
     """Return an SSL adapter class for the given name."""
-    adapter = ssl_adapters[name.lower()]
+    adapter = 'wsgiserver.ssl_builtin.BuiltinSSLAdapter'
     if isinstance(adapter, six.string_types):
         last_dot = adapter.rfind(".")
         attr_name = adapter[last_dot + 1:]
