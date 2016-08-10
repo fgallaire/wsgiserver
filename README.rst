@@ -67,6 +67,6 @@ Naming
 License
 -------
 
-WSGIserver files are released under the GNU AGPLv3 or above license.
+WSGIserver files are released under the GNU LGPLv3 or above license.
 
 WSGIserver codebase from CherryPy by CherryPy Team (team@cherrypy.org) under the 3-clause BSD license.
