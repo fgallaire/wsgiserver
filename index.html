@@ -85,7 +85,7 @@ server.start()
 instance by using a <code>WSGIPathInfoDispatcher</code>:</p>
 
 <pre><code>d = wsgiserver.WSGIPathInfoDispatcher({'/': my_app, '/blog': my_blog_app})
-server = wsgiserver.WSGIServer(('0.0.0.0', 80), d)
+server = wsgiserver.WSGIServer(('0.0.0.0', 8070), d)
 </code></pre>
 
 <p>To add SSL support, just set <code>server.ssl_adapter</code> to an <code>SSLAdapter</code> instance:</p>
