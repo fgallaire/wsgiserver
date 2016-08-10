@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Wsgiserver by fgallaire</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Wsgiserver</h1>
+        <p class="header">WSGIserver is a high-speed, production ready, thread pooled, generic WSGI server with SSL support.</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/fgallaire/wsgiserver/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/fgallaire/wsgiserver/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/fgallaire/wsgiserver">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/fgallaire">fgallaire</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a id="wsgiserver" class="anchor" href="#wsgiserver" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>WSGIserver</h1>
+
+<p><strong>WSGIserver</strong> is a high-speed, production ready, thread pooled, generic WSGI server with <strong>SSL support</strong>.</p>
+
+<p>WSGIserver suppport both Python 2 and Python 3.</p>
+
+<p>WSGIserver is developed by Florent Gallaire <a href="mailto:fgallaire@gmail.com">fgallaire@gmail.com</a>.</p>
+
+<p>Website: <a href="http://fgallaire.github.io/wsgiserver">http://fgallaire.github.io/wsgiserver</a>.</p>
+
+<h2>
+<a id="download-and-install" class="anchor" href="#download-and-install" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Download and Install</h2>
+
+<p>To install the last stable version from PyPI:</p>
+
+<pre><code>$ sudo pip install wsgiserver
+</code></pre>
+
+<p>To install the development version from GitHub:</p>
+
+<pre><code>$ git clone https://github.com/fgallaire/wsgiserver
+$ cd wsgi
+$ sudo python setup.py install
+</code></pre>
+
+<h2>
+<a id="documentation-and-caveats" class="anchor" href="#documentation-and-caveats" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Documentation and Caveats</h2>
+
+<ul>
+<li><p>WSGIserver support Python 2.6 and above and Python 3.1 and above</p></li>
+<li><p>WSGIserver require six</p></li>
+</ul>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Simplest example on how to use WSGIserver:</p>
+
+<pre><code>import wsgiserver
+
+def my_app(environ, start_response):
+    status = '200 OK'
+    response_headers = [('Content-type','text/plain')]
+    start_response(status, response_headers)
+    return ['WSGIserver is running!']
+
+server = wsgiserver.WSGIServer(('0.0.0.0', 8070), my_app)
+server.start()
+</code></pre>
+
+<p>WSGIserver can serve as many WSGI applications as you want in one
+instance by using a <code>WSGIPathInfoDispatcher</code>:</p>
+
+<pre><code>d = wsgiserver.WSGIPathInfoDispatcher({'/': my_app, '/blog': my_blog_app})
+server = wsgiserver.WSGIServer(('0.0.0.0', 80), d)
+</code></pre>
+
+<p>To add SSL support, just set <code>server.ssl_adapter</code> to an <code>SSLAdapter</code> instance:</p>
+
+<pre><code>server.ssl_adapter = wsgiserver.SSLAdapter('certificate.pem', 'privatekey.pem')
+</code></pre>
+
+<h2>
+<a id="naming" class="anchor" href="#naming" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Naming</h2>
+
+<ul>
+<li><p><em>WSGIserver</em> is the project name</p></li>
+<li><p><em>wsgiserver</em> is the Python module name</p></li>
+<li><p><em>WSGIServer</em> is the main class name</p></li>
+</ul>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<p>WSGIserver files are released under the GNU AGPLv3 or above license.</p>
+
+<p>WSGIserver codebase from CherryPy by CherryPy Team (<a href="mailto:team@cherrypy.org">team@cherrypy.org</a>) under the 3-clause BSD license.</p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
