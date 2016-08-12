@@ -1986,10 +1986,6 @@ class HTTPServer(object):
 
     def start(self):
         """Run the server forever."""
-        # We don't have to trap KeyboardInterrupt or SystemExit here,
-        # because cherrpy.server already does so, calling self.stop() for us.
-        # If you're using this server with another framework, you should
-        # trap those exceptions in whatever code block calls start().
         self._interrupt = None
 
         if self.software is None:
@@ -2063,7 +2059,7 @@ class HTTPServer(object):
             try:
                 self.tick()
             except (KeyboardInterrupt, SystemExit):
-                raise
+                self.stop()
             except:
                 self.error_log("Error in HTTPServer.tick", level=logging.ERROR,
                                traceback=True)
