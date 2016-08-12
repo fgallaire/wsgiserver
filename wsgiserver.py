@@ -1761,12 +1761,12 @@ class SSLAdapter(object):
     """
     context = None
 
-    def __init__(self, certificate, private_key, certificate_chain=None):
+    def __init__(self, certfile, keyfile, ca_certs=None):
         if ssl is None:
             raise ImportError("You must install the ssl module to use HTTPS.")
-        self.certificate = certificate
-        self.private_key = private_key
-        self.certificate_chain = certificate_chain
+        self.certificate = certfile
+        self.private_key = keyfile
+        self.certificate_chain = ca_certs
         if hasattr(ssl, 'create_default_context'):
             self.context = ssl.create_default_context(
                 purpose=ssl.Purpose.CLIENT_AUTH,
@@ -2283,7 +2283,8 @@ class WSGIServer(HTTPServer):
     def __init__(self, wsgi_app, host='0.0.0.0', port=8080, numthreads=10,
                  server_name=None, max=-1, request_queue_size=5, timeout=10,
                  shutdown_timeout=5, accepted_queue_size=-1,
-                 accepted_queue_timeout=10):
+                 accepted_queue_timeout=10, certfile=None, keyfile=None,
+                 ca_certs=None):
         self.requests = ThreadPool(self, min=numthreads or 1, max=max,
             accepted_queue_size=accepted_queue_size,
             accepted_queue_timeout=accepted_queue_timeout)
@@ -2299,6 +2300,8 @@ class WSGIServer(HTTPServer):
         self.timeout = timeout
         self.shutdown_timeout = shutdown_timeout
         self.clear_stats()
+        if certfile and keyfile:
+            self.ssl_adapter = SSLAdapter(certfile, keyfile, ca_certs)
 
     def _get_numthreads(self):
         return self.requests.min

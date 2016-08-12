@@ -57,9 +57,9 @@ To specify an ``host`` or a ``port``::
 
     server = wsgiserver.WSGIServer(my_app, host='0.0.0.0', port=8080)
 
-To add SSL support, just set ``server.ssl_adapter`` to an ``SSLAdapter`` instance::
+To add SSL support, just specify a ``certfile`` and a ``keyfile``::
 
-    server.ssl_adapter = wsgiserver.SSLAdapter('certificate.pem', 'privatekey.pem')
+    server = wsgiserver.WSGIServer(my_app, certfile='cert.pem', keyfile='privkey.pem')
 
 Naming
 ------
