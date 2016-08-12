@@ -42,14 +42,20 @@ Simplest example on how to use WSGIserver::
         start_response(status, response_headers)
         return ['WSGIserver is running!']
 
-    server = wsgiserver.WSGIServer(('0.0.0.0', 8070), my_app)
+    server = wsgiserver.WSGIServer(my_app)
     server.start()
+
+Then point your browser to this URL : ``http://localhost:8080``
 
 WSGIserver can serve as many WSGI applications as you want in one
 instance by using a ``WSGIPathInfoDispatcher``::
 
     d = wsgiserver.WSGIPathInfoDispatcher({'/': my_app, '/blog': my_blog_app})
-    server = wsgiserver.WSGIServer(('0.0.0.0', 8070), d)
+    server = wsgiserver.WSGIServer(d)
+
+To specify an ``host`` or a ``port``::
+
+    server = wsgiserver.WSGIServer(my_app, host='0.0.0.0', port=8080)
 
 To add SSL support, just set ``server.ssl_adapter`` to an ``SSLAdapter`` instance::
 
