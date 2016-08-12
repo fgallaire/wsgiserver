@@ -55,7 +55,7 @@ number of requests and their responses, so we run a nested loop::
                     return
 """
 
-__version__ = '1.0'
+__version__ = '1.1'
 
 __all__ = ['HTTPRequest', 'HTTPConnection', 'HTTPServer',
            'SizeCheckWrapper', 'KnownLengthRFile', 'ChunkedRFile',

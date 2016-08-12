@@ -22,6 +22,8 @@ To install the development version from GitHub::
     $ cd wsgiserver
     $ sudo python setup.py install
 
+Or you can just use the ``wsgiserver.py`` file alone, nothing more needed!
+
 Documentation and Caveats
 -------------------------
 
