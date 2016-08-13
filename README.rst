@@ -47,7 +47,7 @@ Simplest example on how to use WSGIserver::
     server = wsgiserver.WSGIServer(my_app)
     server.start()
 
-Then point your browser to this URL : ``http://localhost:8080``
+Then point your browser to this URL: ``http://localhost:8080``
 
 WSGIserver can serve as many WSGI applications as you want in one
 instance by using a ``WSGIPathInfoDispatcher``::
