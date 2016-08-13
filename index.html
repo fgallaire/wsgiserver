@@ -44,12 +44,12 @@
 <h2>
 <a id="download-and-install" class="anchor" href="#download-and-install" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Download and Install</h2>
 
-<p>To install the last stable version from PyPI::</p>
+<p>To install the last stable version from PyPI:</p>
 
 <pre><code>$ sudo pip install wsgiserver
 </code></pre>
 
-<p>To install the development version from GitHub::</p>
+<p>To install the development version from GitHub:</p>
 
 <pre><code>$ git clone https://github.com/fgallaire/wsgiserver
 $ cd wsgiserver
@@ -69,7 +69,7 @@ $ sudo python setup.py install
 <h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
 
-<p>Simplest example on how to use WSGIserver::</p>
+<p>Simplest example on how to use WSGIserver:</p>
 
 <pre><code>import wsgiserver
 
@@ -83,21 +83,21 @@ server = wsgiserver.WSGIServer(my_app)
 server.start()
 </code></pre>
 
-<p>Then point your browser to this URL : <code>http://localhost:8080</code></p>
+<p>Then point your browser to this URL: <code>http://localhost:8080</code></p>
 
 <p>WSGIserver can serve as many WSGI applications as you want in one
-instance by using a <code>WSGIPathInfoDispatcher</code>::</p>
+instance by using a <code>WSGIPathInfoDispatcher</code>:</p>
 
 <pre><code>d = wsgiserver.WSGIPathInfoDispatcher({'/': my_app, '/blog': my_blog_app})
 server = wsgiserver.WSGIServer(d)
 </code></pre>
 
-<p>To specify an <code>host</code> or a <code>port</code>::</p>
+<p>To specify an <code>host</code> or a <code>port</code>:</p>
 
 <pre><code>server = wsgiserver.WSGIServer(my_app, host='0.0.0.0', port=8080)
 </code></pre>
 
-<p>To add SSL support, just specify a <code>certfile</code> and a <code>keyfile</code>::</p>
+<p>To add SSL support, just specify a <code>certfile</code> and a <code>keyfile</code>:</p>
 
 <pre><code>server = wsgiserver.WSGIServer(my_app, certfile='cert.pem', keyfile='privkey.pem')
 </code></pre>
