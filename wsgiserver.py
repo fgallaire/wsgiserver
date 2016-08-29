@@ -87,8 +87,6 @@ except ImportError:
 import errno
 import logging
 
-import six
-
 try:
     # prefer slower Python-based io module
     import _pyio as io
@@ -2509,10 +2507,10 @@ class WSGIGateway_u0(WSGIGateway_10):
         req = self.req
         env_10 = WSGIGateway_10.get_environ(self)
         env = dict(map(self._decode_key, self.items()))
-        env[six.u('wsgi.version')] = ('u', 0)
+        env['wsgi.version'] = ('u', 0)
 
         # Request-URI
-        enc = env.setdefault(six.u('wsgi.url_encoding'), six.u('utf-8'))
+        enc = env.setdefault('wsgi.url_encoding', 'utf-8')
         try:
             env["PATH_INFO"] = req.path.decode(enc)
             env["QUERY_STRING"] = req.qs.decode(enc)
