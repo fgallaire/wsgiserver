@@ -114,6 +114,8 @@ PY2 = sys.version[0] == '2'
 PY3 = sys.version[0] == '3'
 
 if PY3:
+    string_types = str,
+    text_type = str
     def ntob(n, encoding='ISO-8859-1'):
         """Return the given native string as a byte string in the given
         encoding.
@@ -124,6 +126,8 @@ if PY3:
     def bton(b, encoding='ISO-8859-1'):
         return b.decode(encoding)
 else:
+    string_types = basestring,
+    text_type = unicode
     def ntob(n, encoding='ISO-8859-1'):
         """Return the given native string as a byte string in the given
         encoding.
@@ -876,7 +880,7 @@ class HTTPRequest(object):
 
         buf.append(CRLF)
         if msg:
-            if isinstance(msg, six.text_type):
+            if isinstance(msg, text_type):
                 msg = msg.encode("ISO-8859-1")
             buf.append(msg)
 
@@ -1064,7 +1068,7 @@ class CP_makefile_PY2(getattr(socket, '_fileobject', object)):
             pass
 
     _fileobject_uses_str_type = PY2 and isinstance(
-        socket._fileobject(FauxSocket())._rbuf, six.string_types)
+        socket._fileobject(FauxSocket())._rbuf, string_types)
 
     # FauxSocket is no longer needed
     del FauxSocket
@@ -1998,7 +2002,7 @@ class HTTPServer(object):
         if os.getenv('LISTEN_PID', None):
             # systemd socket activation
             self.socket = socket.fromfd(3, socket.AF_INET, socket.SOCK_STREAM)
-        elif isinstance(self.bind_addr, six.string_types):
+        elif isinstance(self.bind_addr, string_types):
             # AF_UNIX socket
 
             # So we can reuse the socket...
@@ -2153,7 +2157,7 @@ class HTTPServer(object):
 
             conn = self.ConnectionClass(self, s, makefile)
 
-            if not isinstance(self.bind_addr, six.string_types):
+            if not isinstance(self.bind_addr, string_types):
                 # optional values
                 # Until we do DNS lookups, omit REMOTE_HOST
                 if addr is None:  # sometimes this can happen
@@ -2222,7 +2226,7 @@ class HTTPServer(object):
 
         sock = getattr(self, "socket", None)
         if sock:
-            if not isinstance(self.bind_addr, six.string_types):
+            if not isinstance(self.bind_addr, string_types):
                 # Touch our own socket to make accept() return immediately.
                 try:
                     host, port = sock.getsockname()[:2]
@@ -2339,7 +2343,7 @@ class WSGIGateway(Gateway):
                 # a NON-EMPTY string, or upon the application's first
                 # invocation of the write() callable." (PEP 333)
                 if chunk:
-                    if isinstance(chunk, six.text_type):
+                    if isinstance(chunk, text_type):
                         chunk = chunk.encode('ISO-8859-1')
                     self.write(chunk)
         finally:
@@ -2462,7 +2466,7 @@ class WSGIGateway_10(WSGIGateway):
             'wsgi.version': (1, 0),
         }
 
-        if isinstance(req.server.bind_addr, six.string_types):
+        if isinstance(req.server.bind_addr, string_types):
             # AF_UNIX. This isn't really allowed by WSGI, which doesn't
             # address unix domain sockets. But it's better than nothing.
             env["SERVER_PORT"] = ""
