@@ -2364,7 +2364,10 @@ class WSGIGateway(Gateway):
         # exc_info tuple."
         if self.req.sent_headers:
             try:
-                six.reraise(*exc_info)
+                if PY2:
+                    raise exc_info[0], exc_info[1], exc_info[2]
+                else:
+                    raise exc_info[0](exc_info[1]).with_traceback(exc_info[2])
             finally:
                 exc_info = None
 
