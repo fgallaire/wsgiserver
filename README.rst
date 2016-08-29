@@ -3,7 +3,7 @@ WSGIserver
 
 **WSGIserver** is a high-speed, production ready, thread pooled, generic WSGI server with **SSL support**.
 
-WSGIserver suppport both Python 2 and Python 3.
+WSGIserver suppport **both** Python 2 (2.6 and above) and Python 3 (3.1 and above) and has **no dependency**.
 
 WSGIserver is developed by Florent Gallaire fgallaire@gmail.com.
 
@@ -23,13 +23,6 @@ To install the development version from GitHub::
     $ sudo python setup.py install
 
 Or you can just use the ``wsgiserver.py`` file alone, nothing more needed!
-
-Documentation and Caveats
--------------------------
-
--  WSGIserver support Python 2.6 and above and Python 3.1 and above
-
--  WSGIserver require six
 
 Usage
 -----

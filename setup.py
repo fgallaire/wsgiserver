@@ -31,5 +31,4 @@ setup(name='WSGIserver',
           "Programming Language :: Python :: 3.5",
       ],
       py_modules=['wsgiserver'],
-      install_requires=['six'],
       )
