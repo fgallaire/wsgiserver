@@ -110,8 +110,10 @@ if 'win' in sys.platform and hasattr(socket, "AF_INET6"):
 
 DEFAULT_BUFFER_SIZE = io.DEFAULT_BUFFER_SIZE
 
+PY2 = sys.version[0] == '2'
+PY3 = sys.version[0] == '3'
 
-if six.PY3:
+if PY3:
     def ntob(n, encoding='ISO-8859-1'):
         """Return the given native string as a byte string in the given
         encoding.
@@ -1061,7 +1063,7 @@ class CP_makefile_PY2(getattr(socket, '_fileobject', object)):
         def _reuse(self):
             pass
 
-    _fileobject_uses_str_type = six.PY2 and isinstance(
+    _fileobject_uses_str_type = PY2 and isinstance(
         socket._fileobject(FauxSocket())._rbuf, six.string_types)
 
     # FauxSocket is no longer needed
@@ -1337,7 +1339,7 @@ class CP_makefile_PY2(getattr(socket, '_fileobject', object)):
                 return "".join(buffers)
 
 
-CP_makefile = CP_makefile_PY2 if six.PY2 else CP_makefile_PY3
+CP_makefile = CP_makefile_PY2 if PY2 else CP_makefile_PY3
 
 
 class HTTPConnection(object):
@@ -1472,7 +1474,7 @@ class HTTPConnection(object):
         socket.close(), because the latter drops its reference to
         the kernel socket.
         """
-        if six.PY2 and hasattr(self.socket, '_sock'):
+        if PY2 and hasattr(self.socket, '_sock'):
             self.socket._sock.close()
 
 
@@ -2133,7 +2135,7 @@ class HTTPServer(object):
                            "Content-Type: text/plain\r\n\r\n",
                            msg]
 
-                    sock_to_make = s if six.PY3 else s._sock
+                    sock_to_make = s if PY3 else s._sock
                     wfile = makefile(sock_to_make, "wb", DEFAULT_BUFFER_SIZE)
                     try:
                         wfile.write(ntob("".join(buf)))
@@ -2386,7 +2388,7 @@ class WSGIGateway(Gateway):
         must be of type "str" but are restricted to code points in the
         "latin-1" set.
         """
-        if six.PY2:
+        if PY2:
             return status
         if not isinstance(status, str):
             raise TypeError("WSGI response status is not of type str.")
@@ -2519,14 +2521,14 @@ class WSGIGateway_u0(WSGIGateway_10):
 
     @staticmethod
     def _decode_key(k, v):
-        if six.PY2:
+        if PY2:
             k = k.decode('ISO-8859-1')
         return k, v
 
     @staticmethod
     def _decode_value(k, v):
         skip_keys = 'REQUEST_URI', 'wsgi.input'
-        if six.PY3 or not isinstance(v, bytes) or k in skip_keys:
+        if PY3 or not isinstance(v, bytes) or k in skip_keys:
             return k, v
         return k, v.decode('ISO-8859-1')
 
