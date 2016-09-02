@@ -2342,7 +2342,7 @@ class WSGIGateway(Gateway):
                 # invocation of the write() callable." (PEP 333)
                 if chunk:
                     if isinstance(chunk, text_type):
-                        chunk = chunk.encode('ISO-8859-1')
+                        raise ValueError("WSGI Applications must yield bytes")
                     self.write(chunk)
         finally:
             if hasattr(response, "close"):
