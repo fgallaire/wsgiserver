@@ -114,6 +114,7 @@ PY3 = sys.version[0] == '3'
 if PY3:
     string_types = str,
     text_type = str
+    binary_type = bytes
     def ntob(n, encoding='ISO-8859-1'):
         """Return the given native string as a byte string in the given
         encoding.
@@ -126,6 +127,7 @@ if PY3:
 else:
     string_types = basestring,
     text_type = unicode
+    binary_type = str
     def ntob(n, encoding='ISO-8859-1'):
         """Return the given native string as a byte string in the given
         encoding.
@@ -2341,7 +2343,7 @@ class WSGIGateway(Gateway):
                 # a NON-EMPTY string, or upon the application's first
                 # invocation of the write() callable." (PEP 333)
                 if chunk:
-                    if isinstance(chunk, text_type):
+                    if not isinstance(chunk, binary_type):
                         raise ValueError("WSGI Applications must yield bytes")
                     self.write(chunk)
         finally:
