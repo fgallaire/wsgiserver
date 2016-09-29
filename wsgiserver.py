@@ -55,7 +55,7 @@ number of requests and their responses, so we run a nested loop::
                     return
 """
 
-__version__ = '1.2'
+__version__ = '1.3'
 
 __all__ = ['HTTPRequest', 'HTTPConnection', 'HTTPServer',
            'SizeCheckWrapper', 'KnownLengthRFile', 'ChunkedRFile',
@@ -2365,7 +2365,7 @@ class WSGIGateway(Gateway):
         if self.req.sent_headers:
             try:
                 if PY2:
-                    raise exc_info[0], exc_info[1], exc_info[2]
+                    exec('raise exc_info[0], exc_info[1], exc_info[2]')
                 else:
                     raise exc_info[0](exc_info[1]).with_traceback(exc_info[2])
             finally:
