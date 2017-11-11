@@ -1804,10 +1804,10 @@ class SSLAdapter(object):
                 # the 'ping' isn't SSL.
                 return None, {}
             elif e.errno == ssl.SSL_ERROR_SSL:
-                if e.args[1].find('http request') > 0:
+                if 'http request' in e.args[1]:
                     # The client is speaking HTTP to an HTTPS server.
                     raise NoSSLError
-                elif e.args[1].find('unknown protocol') > 0:
+                elif 'unknown protocol' in e.args[1]:
                     # The client is speaking some non-HTTP protocol.
                     # Drop the conn.
                     return None, {}
