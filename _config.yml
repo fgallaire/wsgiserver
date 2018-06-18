@@ -1,0 +1,8 @@
+title: Wsgiserver
+description: WSGIserver is a high-speed, production ready, thread pooled, generic WSGI server with SSL support.
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-dinky
+
+gems:
+  - jekyll-mentions
